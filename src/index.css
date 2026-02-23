@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@theme{
+  --font-poppins: "Poppins", "sans-serif";
+}
+/* ADD THIS LINE for v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes marquee-horizontal {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-horizontal 20s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
