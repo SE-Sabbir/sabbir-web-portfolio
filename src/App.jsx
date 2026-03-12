@@ -105,11 +105,11 @@ const App = () => {
       <nav className="fixed w-full top-0 z-[100] backdrop-blur-md bg-white/70 dark:bg-slate-950/70 border-b border-slate-200 dark:border-slate-800 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-cyan-500 rounded-lg rotate-12 flex items-center justify-center font-bold text-slate-950">
-              S
+            <div className="w-9 h-9 flex items-center justify-center">
+              <img src="https://res.cloudinary.com/dxr5inpsy/image/upload/v1773291601/S-letter_logo_ubt9g0.png" alt="logo" className="w-full h-full object-cover" />
             </div>
-            <span className="text-xl font-bold tracking-tighter uppercase">
-              dev sabbir.net
+            <span className="font-poppins text-xl font-bold tracking-tighter uppercase">
+              sabbir.dev
             </span>
           </div>
 
@@ -194,6 +194,30 @@ const App = () => {
             </p>
 
             {/* Buttons and Socials... */}
+            <div className="flex gap-4 pt-4">
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
+              >
+                <Github size={24} />
+              </a>
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
+              >
+                <Linkedin size={24} />
+              </a>
+              <a
+                href="#"
+                className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
+              >
+                <Mail size={24} />
+              </a>
+            </div>
             
           </div>
 
@@ -301,8 +325,19 @@ const App = () => {
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             <ProjectCard
-              title="Fintech Dashboard"
-              tech="React, Node, Chart.js"
+              title="DevBlog"
+              tech="React, Node.js, MongoDB"
+              liveLink="https://devblog-murex-three.vercel.app/"
+            />
+            <ProjectCard
+              title="Coral-web"
+              tech="React, Tailwind"
+              liveLink="https://coral-web-jet.vercel.app/"
+            />
+            <ProjectCard
+              title="ShortLinky"
+              tech="React, MongoDB, Tailwind"
+              liveLink="https://shortlinky-url-maker.vercel.app/"
             />
             <ProjectCard
               title="Real-time Chat App"
@@ -322,21 +357,39 @@ const App = () => {
   );
 };
 
-const ProjectCard = ({ title, tech }) => (
+const ProjectCard = ({ title, tech, liveLink, githubLink }) => (
   <div className="group relative bg-slate-100 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden">
-    <div className="h-64 bg-slate-200 dark:bg-slate-800 overflow-hidden">
-      <div className="w-full h-full group-hover:scale-110 transition duration-700 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
-        <Code2 size={48} className="text-slate-400 opacity-20" />
+    <div className="h-64 bg-slate-200 dark:bg-slate-800 overflow-hidden relative">
+      <div className="w-full h-full group-hover:scale-110 transition duration-700 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center relative">
+        {liveLink ? (
+          <>
+            {/* Scaled down iframe to show a true live preview of the site */}
+            <div className="absolute top-0 left-0 w-[250%] h-[250%] origin-top-left scale-[0.4] pointer-events-none transition-transform duration-700">
+              <iframe
+                src={liveLink}
+                title={title}
+                className="w-full h-full border-none bg-white dark:bg-slate-950"
+                tabIndex="-1"
+              />
+            </div>
+            {/* Transparent overlay blocks clicks to the iframe, allowing card interaction */}
+            <div className="absolute inset-0 z-10 bg-slate-900/5 group-hover:bg-transparent transition-colors duration-500 hover:cursor-pointer" onClick={() => window.open(liveLink, "_blank")}></div>
+          </>
+        ) : (
+          <Code2 size={48} className="text-slate-400 opacity-20 relative z-20" />
+        )}
       </div>
     </div>
-    <div className="p-8">
+    <div className="p-8 relative z-20">
       <h3 className="text-2xl font-bold mb-2">{title}</h3>
       <p className="text-slate-500 mb-6">{tech}</p>
       <div className="flex gap-4">
-        <button className="flex items-center gap-2 text-sm font-bold bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition">
-          Live <ExternalLink size={14} />
-        </button>
-        <button className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-cyan-500 transition">
+        {liveLink && (
+          <button onClick={() => window.open(liveLink, "_blank")} className="flex items-center gap-2 text-sm font-bold bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition hover:shadow-cyan-500/20 shadow-sm">
+            Live <ExternalLink size={14} />
+          </button>
+        )}
+        <button onClick={() => window.open(githubLink || "#", "_blank")} className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-cyan-500 transition">
           GitHub <Github size={14} />
         </button>
       </div>
