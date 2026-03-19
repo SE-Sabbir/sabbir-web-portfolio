@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import resumePdf from "./assets/sabbir-mern-resume.pdf";
 import {
   Sun,
   Moon,
@@ -13,6 +14,7 @@ import {
   Database,
   Layout,
   User,
+  Download,
 } from "lucide-react";
 
 const App = () => {
@@ -194,29 +196,39 @@ const App = () => {
             </p>
 
             {/* Buttons and Socials... */}
-            <div className="flex gap-4 pt-4">
+            <div className="flex flex-wrap items-center gap-6 pt-4">
               <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
+                href={resumePdf}
+                download="resume.pdf"
+                className="flex items-center gap-2 px-8 py-4 font-bold text-white bg-cyan-500 rounded-full hover:bg-cyan-600 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300 transform hover:-translate-y-1"
               >
-                <Github size={24} />
+                <span>Download Resume</span>
+                <Download size={20} />
               </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
-              >
-                <Linkedin size={24} />
-              </a>
-              <a
-                href="#"
-                className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
-              >
-                <Mail size={24} />
-              </a>
+              <div className="flex gap-4">
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
+                >
+                  <Github size={24} />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
+                >
+                  <Linkedin size={24} />
+                </a>
+                <a
+                  href="#"
+                  className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
+                >
+                  <Mail size={24} />
+                </a>
+              </div>
             </div>
             
           </div>
@@ -318,7 +330,7 @@ const App = () => {
         {/* --- PROJECTS SECTION --- */}
         <section id="projects" className="py-20">
           <div className="flex justify-between items-end mb-12">
-            <h2 className="text-4xl font-bold">Latest Works</h2>
+            <h2 className="text-4xl font-bold">My Projects</h2>
             <p className="text-cyan-500 underline cursor-pointer">
               View all GitHub repos
             </p>
