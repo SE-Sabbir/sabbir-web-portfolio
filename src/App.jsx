@@ -170,7 +170,7 @@ const App = () => {
         {/* --- HERO SECTION --- */}
         <section
           id="home"
-          className="pt-40 pb-20 flex flex-col md:flex-row items-center gap-12"
+          className="pt-24 md:pt-40 pb-20 flex flex-col md:flex-row items-center gap-12"
         >
           <div className="flex-1 space-y-6">
             <h2 className="text-slate-400 font-poppins tracking-widest uppercase text-lg">
@@ -199,13 +199,13 @@ const App = () => {
             <div className="flex flex-wrap items-center gap-6 pt-4">
               <a
                 href={resumePdf}
-                download="resume.pdf"
-                className="flex items-center gap-2 px-8 py-4 font-bold text-white bg-cyan-500 rounded-full hover:bg-cyan-600 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300 transform hover:-translate-y-1"
+                download="sabbir-mern-resume.pdf"
+                className="flex items-center gap-2 px-6 py-4 font-bold text-white bg-cyan-500 rounded-full hover:bg-cyan-600 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300 transform hover:-translate-y-1"
               >
                 <span>Download Resume</span>
                 <Download size={20} />
               </a>
-              <div className="flex gap-4">
+              <div className="flex gap-5">
                 <a
                   href="#"
                   target="_blank"
@@ -232,11 +232,8 @@ const App = () => {
             </div>
             
           </div>
-
-          {/* Keep your Profile Picture & Scroll Text here */}
-
           {/* Profile Picture Frame */}
-          <div className="relative group">
+          <div className="relative group order-first md:order-last">
             <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-2xl group-hover:bg-cyan-500/40 transition"></div>
             <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-200">
               {/* Replace with your image URL */}
@@ -247,6 +244,7 @@ const App = () => {
               />
             </div>
           </div>
+
         </section>
         {/* LOGO MARQUEE (The Bottom Scroll) */}
         <div className="w-full max-w-[320px] md:max-w-7xl mt-4 overflow-hidden relative">
@@ -285,16 +283,28 @@ const App = () => {
               <h3 className="text-3xl font-bold mb-4">The Journey</h3>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                 I'm a self-driven MERN stack developer with a passion for
-                building clean, user-centric interfaces. My expertise lies in
-                translating UI designs into pixel-perfect code and architecting
-                robust APIs. When I'm not coding, I'm exploring new system
-                architectures or contributing to open-source.
+                building clean, scalable, and user-centric web applications. My expertise
+                lies in translating complex UI designs into pixel-perfect frontend code,
+                powered by efficient and robust backend APIs. Backed by a strong foundation
+                in Computer Science & Engineering, I love tackling challenging problems,
+                optimizing application performance, and ensuring seamless user experiences.
+                When I'm not coding, you can find me exploring new system architectures,
+                discovering the latest tech trends, or contributing to open-source projects
+                to constantly sharpen my skills.
               </p>
             </div>
             <div className="space-y-4">
               <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl">
                 <h4 className="font-bold text-cyan-500">Education</h4>
-                <p>Computer Science & Engineering</p>
+                <p>Diploma in Computer Science & Engineering</p>
+                <p className="text-slate-500">TMSS Polytechnic Institute</p>
+                <hr className="my-3 border-slate-200 dark:border-slate-800" /> 
+                <p>Diploma in MERN Stack</p>
+                <p className="text-slate-500">Creative IT Institute</p>
+              </div>
+              <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl">
+                <h4 className="font-bold text-cyan-500">Language</h4>
+                <p>Bengali (Native), English (Fluent) , Hindi (Basic)</p>
               </div>
               <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl">
                 <h4 className="font-bold text-cyan-500">Focus</h4>
