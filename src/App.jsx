@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import resumePdf from "./assets/sabbir-mern-resume.pdf";
 import {
@@ -15,11 +15,41 @@ import {
   Layout,
   User,
   Download,
+  Send,
+  Phone,
+  Star,
+  Quote,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
+  const carouselRef = useRef(null);
+
+  const scrollCarousel = (direction) => {
+    if (carouselRef.current) {
+      const scrollAmount = window.innerWidth > 768 ? 450 : 320;
+      carouselRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    if (isCarouselHovered) return;
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+        if (Math.ceil(scrollLeft + clientWidth) >= scrollWidth - 10) {
+          carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollCarousel('right');
+        }
+      }
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [isCarouselHovered]);
   const logos = [
     {
       name: "MongoDB",
@@ -64,6 +94,7 @@ const App = () => {
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
     { name: "Projects", href: "#projects" },
+    { name: "Contact", href: "#contact" },
   ];
 
   const Typewriter = ({ words }) => {
@@ -106,7 +137,7 @@ const App = () => {
       {/* --- RESPONSIVE NAVBAR --- */}
       <nav className="fixed w-full top-0 z-[100] backdrop-blur-md bg-white/70 dark:bg-slate-950/70 border-b border-slate-200 dark:border-slate-800 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
+          <div onClick={() => window.location.href = "#home"} className="flex items-center gap-2 cursor-pointer">
             <div className="w-9 h-9 flex items-center justify-center">
               <img src="https://res.cloudinary.com/dxr5inpsy/image/upload/v1773291601/S-letter_logo_ubt9g0.png" alt="logo" className="w-full h-full object-cover" />
             </div>
@@ -207,7 +238,7 @@ const App = () => {
               </a>
               <div className="flex gap-5">
                 <a
-                  href="#"
+                  href="https://github.com/SE-Sabbir"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
@@ -215,22 +246,21 @@ const App = () => {
                   <Github size={24} />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/md-sabbir-hossain-8059671b7/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
                 >
                   <Linkedin size={24} />
                 </a>
-                <a
-                  href="#"
+                <a href="#contact"
                   className="p-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none text-slate-600 dark:text-slate-400 hover:text-cyan-500 hover:shadow-cyan-500/20 dark:hover:shadow-cyan-500/10 hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800"
                 >
                   <Mail size={24} />
                 </a>
               </div>
             </div>
-            
+
           </div>
           {/* Profile Picture Frame */}
           <div className="relative group order-first md:order-last">
@@ -272,6 +302,45 @@ const App = () => {
           </div>
         </div>
 
+        {/* --- STATS SECTION --- */}
+        <div className="py-12 my-12 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] shadow-xl shadow-slate-200/20 dark:shadow-none">
+          <div className="max-w-6xl mx-auto flex flex-wrap max-md:grid max-md:grid-cols-2 justify-between items-center gap-8 px-8 sm:px-12">
+            <div className="flex flex-col items-center sm:items-start flex-1">
+              <span className="text-4xl md:text-5xl font-black font-poppins text-cyan-500">
+                <AnimatedCounter end={3} suffix="+" duration={2000} />
+              </span>
+              <span className="text-slate-500 font-medium uppercase tracking-wider text-xs md:text-sm mt-2 text-center sm:text-left">Years Experience</span>
+            </div>
+
+            <div className="hidden md:block w-px h-16 bg-slate-200 dark:bg-slate-800"></div>
+
+            <div className="flex flex-col items-center sm:items-start flex-1">
+              <span className="text-4xl md:text-5xl font-black font-poppins text-cyan-500">
+                <AnimatedCounter end={20} suffix="+" duration={2000} />
+              </span>
+              <span className="text-slate-500 font-medium uppercase tracking-wider text-xs md:text-sm mt-2 text-center sm:text-left">Total Projects</span>
+            </div>
+
+            <div className="hidden md:block w-px h-16 bg-slate-200 dark:bg-slate-800"></div>
+
+            <div className="flex flex-col items-center sm:items-start flex-1">
+              <span className="text-4xl md:text-5xl font-black font-poppins text-cyan-500">
+                <AnimatedCounter end={15} suffix="+" duration={2000} />
+              </span>
+              <span className="text-slate-500 font-medium uppercase tracking-wider text-xs md:text-sm mt-2 text-center sm:text-left">Happy Clients</span>
+            </div>
+
+            <div className="hidden md:block w-px h-16 bg-slate-200 dark:bg-slate-800"></div>
+
+            <div className="flex flex-col items-center sm:items-start flex-1">
+              <span className="text-4xl md:text-5xl font-black font-poppins text-cyan-500">
+                <AnimatedCounter end={50} suffix="+" duration={2000} />
+              </span>
+              <span className="text-slate-500 font-medium uppercase tracking-wider text-xs md:text-sm mt-2 text-center sm:text-left">GitHub Repos</span>
+            </div>
+          </div>
+        </div>
+
         {/* --- ABOUT SECTION --- */}
         <section
           id="about"
@@ -298,7 +367,7 @@ const App = () => {
                 <h4 className="font-bold text-cyan-500">Education</h4>
                 <p>Diploma in Computer Science & Engineering</p>
                 <p className="text-slate-500">TMSS Polytechnic Institute</p>
-                <hr className="my-3 border-slate-200 dark:border-slate-800" /> 
+                <hr className="my-3 border-slate-200 dark:border-slate-800" />
                 <p>Diploma in MERN Stack</p>
                 <p className="text-slate-500">Creative IT Institute</p>
               </div>
@@ -367,26 +436,254 @@ const App = () => {
             />
           </div>
         </section>
+
+        {/* --- REVIEWS SECTION --- */}
+        <section id="reviews" className="py-20 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 mb-12">
+            <div className="text-center md:text-left">
+              <h2 className="text-4xl font-bold mb-4">Client Reviews</h2>
+              <p className="text-slate-500 max-w-2xl">
+                Don't just take my word for it. Here is what some of my clients have to say about my work.
+              </p>
+            </div>
+            {/* Carousel Controls */}
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => scrollCarousel('left')}
+                className="p-3 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-500 hover:text-cyan-500 transition-all duration-300 shadow-sm"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={() => scrollCarousel('right')}
+                className="p-3 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-500 hover:text-cyan-500 transition-all duration-300 shadow-sm"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          </div>
+
+          <div
+            ref={carouselRef}
+            onMouseEnter={() => setIsCarouselHovered(true)}
+            onMouseLeave={() => setIsCarouselHovered(false)}
+            onTouchStart={() => setIsCarouselHovered(true)}
+            onTouchEnd={() => setIsCarouselHovered(false)}
+            className="flex overflow-x-auto gap-8 pb-8 snap-x snap-mandatory no-scrollbar cursor-grab active:cursor-grabbing"
+          >
+            {[
+              { name: "John Doe", title: "CEO, TechCorp", review: "Amazing work, highly recommended! Sabbir exceeded all our expectations and delivered way ahead of schedule.", rating: 5 },
+              { name: "Jane Smith", title: "Founder, StartUp", review: "Incredibly fast and professional execution. He translated our complex designs into a beautifully interactive app.", rating: 5 },
+              { name: "Mike Johnson", title: "Product Manager", review: "Delivered exactly what we needed on time, with clean code and great communication.", rating: 4 },
+              { name: "Emily Davis", title: "Marketing Head", review: "A true professional. Outstanding user experience and smooth micro-animations. Would hire again!", rating: 5 },
+              { name: "David Miller", title: "CTO, InnovateX", review: "Sabbir is simply fantastic. He turned our vague ideas into a polished, high-performing product.", rating: 5 }
+            ].map((r, idx) => (
+              <div key={idx} className="min-w-[100%] md:min-w-[420px] snap-center">
+                <ReviewCard name={r.name} title={r.title} review={r.review} rating={r.rating} />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* --- CONTACT SECTION --- */}
+        <section id="contact" className="py-20 border-t border-slate-200 dark:border-slate-800">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12">
+            <div className="md:w-1/3">
+              <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
+              <p className="text-slate-500 mb-8">
+                Have a project in mind or just want to say hi? Feel free to reach out to me!
+              </p>
+
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded-full text-cyan-500">
+                    <Mail size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold">Email</h4>
+                    <a href="mailto:[sabbirhp450@gmail.com]" className="text-slate-500 hover:text-cyan-500 transition">sabbirhp450@gmail.com</a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded-full text-cyan-500">
+                    <Phone size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold">Phone</h4>
+                    <a href="tel:+8801311961850" className="text-slate-500 hover:text-cyan-500 transition">+880 1311-961850</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="md:w-2/3 p-8 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800">
+              <form
+                action="https://api.web3forms.com/submit"
+                method="POST"
+                className="space-y-6"
+              >
+                {/* Replace with your Access Key from web3forms.com */}
+                <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="text-sm font-semibold">Your Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      placeholder="John Doe"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all outline-none"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="text-sm font-semibold">Your Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder="john@example.com"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all outline-none"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="message" className="text-sm font-semibold">Message</label>
+                  <textarea
+                    name="message"
+                    id="message"
+                    rows="4"
+                    placeholder="How can I help you?"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all outline-none resize-none"
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="px-8 py-4 w-full sm:w-auto font-bold text-white bg-cyan-500 rounded-xl hover:bg-cyan-600 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <span>Send Message</span>
+                  <Send size={18} />
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* --- FOOTER --- */}
-      <footer className="py-12 border-t border-slate-200 dark:border-slate-800 text-center">
-        <p className="text-slate-500">
-          © 2026 Sabbir Hossain. Built with React & Tailwind.
-        </p>
+      <footer className=" pt-15 pb-10 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 mt-20">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 gap-10 md:grid-cols-5 pb-10">
+          <div className="md:col-span-2 space-y-6">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <img src="https://res.cloudinary.com/dxr5inpsy/image/upload/v1773291601/S-letter_logo_ubt9g0.png" alt="logo" className="w-full h-full object-cover" />
+              </div>
+              <span className="font-poppins text-xl font-bold tracking-tighter uppercase">sabbir.dev</span>
+            </div>
+            <p className="text-slate-500 max-w-sm leading-relaxed">
+              Building high-performance web applications with a focus on clean code and seamless user experiences. Let's create something amazing together.
+            </p>
+          </div>
+          
+          <div>
+            <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase tracking-wider text-sm">Quick Links</h4>
+            <ul className="space-y-4">
+              <li><a href="#home" className="text-slate-500 hover:text-cyan-500 transition-colors">Home</a></li>
+              <li><a href="#about" className="text-slate-500 hover:text-cyan-500 transition-colors">About</a></li>
+              <li><a href="#skills" className="text-slate-500 hover:text-cyan-500 transition-colors">Skills</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase tracking-wider text-sm">Info Links</h4>
+            <ul className="space-y-4">
+              <li><a href="#projects" className="text-slate-500 hover:text-cyan-500 transition-colors">Projects</a></li>
+              <li><a href="#reviews" className="text-slate-500 hover:text-cyan-500 transition-colors">Reviews</a></li>
+              <li><a href="#contact" className="text-slate-500 hover:text-cyan-500 transition-colors">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase tracking-wider text-sm">Connect</h4>
+            <ul className="space-y-4">
+              <li><a href="https://github.com/SE-Sabbir" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-slate-500 hover:text-cyan-500 transition-colors"><Github size={18} /> GitHub</a></li>
+              <li><a href="https://www.linkedin.com/in/md-sabbir-hossain-8059671b7/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-slate-500 hover:text-cyan-500 transition-colors"><Linkedin size={18} /> LinkedIn</a></li>
+              <li><a href="mailto:sabbirhp450@gmail.com" className="flex items-center gap-3 text-slate-500 hover:text-cyan-500 transition-colors"><Mail size={18} /> Email Me</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-6  pt-8 border-t border-slate-200 dark:border-slate-800">
+          <p className="text-center text-slate-500 text-sm mb-4 md:mb-0">
+            © {new Date().getFullYear()} Sabbir Hossain. All rights reserved.
+          </p>
+        </div>
       </footer>
     </div>
   );
 };
 
+const AnimatedCounter = ({ end, duration = 2000, suffix = "" }) => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (countRef.current) {
+      observer.observe(countRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let startTime = null;
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+      // easeOutExpo for smooth deceleration
+      const easing = percentage === 1 ? 1 : 1 - Math.pow(2, -10 * percentage);
+
+      setCount(Math.floor(end * easing));
+
+      if (progress < duration) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(end);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [isVisible, end, duration]);
+
+  return (
+    <span ref={countRef}>
+      {count}{suffix}
+    </span>
+  );
+};
+
 const ProjectCard = ({ title, tech, liveLink, githubLink }) => (
-  <div className="group relative bg-slate-100 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden">
-    <div className="h-64 bg-slate-200 dark:bg-slate-800 overflow-hidden relative">
-      <div className="w-full h-full group-hover:scale-110 transition duration-700 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center relative">
+  <div className="group relative hover:bg-slate-200 dark:hover:bg-slate-800 transition duration-500 bg-slate-100 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden">
+    <div className="h-60 bg-slate-200 dark:bg-slate-800 overflow-hidden relative ">
+      <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center relative">
         {liveLink ? (
           <>
             {/* Scaled down iframe to show a true live preview of the site */}
-            <div className="absolute top-0 left-0 w-[250%] h-[250%] origin-top-left scale-[0.4] pointer-events-none transition-transform duration-700">
+            <div className="absolute top-0 left-0 w-[250%] h-[250%] origin-top-left scale-[0.4]">
               <iframe
                 src={liveLink}
                 title={title}
@@ -402,9 +699,9 @@ const ProjectCard = ({ title, tech, liveLink, githubLink }) => (
         )}
       </div>
     </div>
-    <div className="p-8 relative z-20">
-      <h3 className="text-2xl font-bold mb-2">{title}</h3>
-      <p className="text-slate-500 mb-6">{tech}</p>
+    <div className="p-5 relative z-20">
+      <h3 className="text-2xl font-bold mb-1">{title}</h3>
+      <p className="text-slate-500 mb-4">{tech}</p>
       <div className="flex gap-4">
         {liveLink && (
           <button onClick={() => window.open(liveLink, "_blank")} className="flex items-center gap-2 text-sm font-bold bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition hover:shadow-cyan-500/20 shadow-sm">
@@ -418,5 +715,28 @@ const ProjectCard = ({ title, tech, liveLink, githubLink }) => (
     </div>
   </div>
 );
+// ------------reveiw card----------------
+const ReviewCard = ({ name, title, review, rating }) => (
+  <div className="p-8 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 relative group hover:border-cyan-500/50 transition duration-500 shadow-xl shadow-slate-200/20 dark:shadow-none flex flex-col h-full">
+    <Quote className="absolute top-8 right-8 text-slate-200 dark:text-slate-800 group-hover:text-cyan-500/20 transition-colors duration-500" size={48} />
+    <div className="flex gap-1 text-yellow-400 mb-6">
+      {Array.from({ length: rating || 5 }).map((_, i) => (
+        <Star key={i} size={18} fill="currentColor" />
+      ))}
+    </div>
+    <p className="text-slate-600 dark:text-slate-400 mb-8 relative z-10 leading-relaxed font-medium flex-grow">
+      {review}
+    </p>
+    <div className="flex items-center gap-4 pt-4 mt-auto border-t border-slate-200 dark:border-slate-800">
+      <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900/40 flex items-center justify-center text-cyan-600 dark:text-cyan-400 font-bold text-xl uppercase shrink-0">
+        {name ? name.charAt(0) : "U"}
+      </div>
+      <div>
+        <h4 className="font-bold text-slate-900 dark:text-white">{name}</h4>
+        <p className="text-sm text-slate-500">{title}</p>
+      </div>
+    </div>
+  </div>
+)
 
 export default App;
