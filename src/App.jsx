@@ -21,6 +21,7 @@ import {
   Quote,
   ChevronLeft,
   ChevronRight,
+  Terminal,
 } from "lucide-react";
 
 const App = () => {
@@ -386,21 +387,76 @@ const App = () => {
         {/* --- SKILLS SECTION --- */}
         <section id="skills" className="py-20">
           <h2 className="text-4xl font-bold mb-12">Tech Stack</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Frontend", icons: "React, Next.js, Tailwind" },
-              { title: "Backend", icons: "Node.js, Express" },
-              { title: "Database", icons: "MongoDB, PostgreSQL" },
-              { title: "DevOps", icons: "Git, Docker, Firebase" },
-            ].map((skill) => (
+              {
+                title: "Frontend",
+                icon: <Layout size={24} className="text-cyan-500" />,
+                skills: [
+                  { name: "React", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+                  { name: "Next.js", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", invertDark: true },
+                  { name: "Tailwind CSS", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+                ],
+              },
+              {
+                title: "Backend",
+                icon: <Code2 size={24} className="text-cyan-500" />,
+                skills: [
+                  { name: "Node.js", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+                  { name: "Express.js", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg", invertDark: true },
+                ],
+              },
+              {
+                title: "Database",
+                icon: <Database size={24} className="text-cyan-500" />,
+                skills: [
+                  { name: "MongoDB", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+                  { name: "PostgreSQL", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+                ],
+              },
+              {
+                title: "DevOps & Tools",
+                icon: <Terminal size={24} className="text-cyan-500" />,
+                skills: [
+                  { name: "Git", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+                  { name: "Docker", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+                  { name: "Firebase", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original.svg" },
+                ],
+              },
+            ].map((category) => (
               <div
-                key={skill.title}
-                className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-transparent hover:border-cyan-500/50 transition group"
+                key={category.title}
+                className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/5 group flex flex-col"
               >
-                <h4 className="font-bold mb-2 group-hover:text-cyan-500 transition">
-                  {skill.title}
-                </h4>
-                <p className="text-sm text-slate-500">{skill.icons}</p>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800/80 rounded-2xl shadow-sm">
+                    {category.icon}
+                  </div>
+                  <h4 className="font-poppins font-bold text-lg text-slate-800 dark:text-slate-200 group-hover:text-cyan-500 transition-colors duration-300">
+                    {category.title}
+                  </h4>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {category.skills.map((skill) => (
+                    <div
+                      key={skill.name}
+                      className="flex items-center gap-3 p-2 rounded-2xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800/80 hover:border-cyan-500/30 transition-all duration-300 group/item"
+                    >
+                      <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 p-2 group-hover/item:scale-110 transition-transform duration-300">
+                        <img
+                          src={skill.url}
+                          alt={skill.name}
+                          className={`w-full h-full object-contain ${
+                            skill.invertDark ? "dark:invert" : ""
+                          }`}
+                        />
+                      </div>
+                      <span className="font-poppins text-sm font-medium text-slate-700 dark:text-slate-300 group-hover/item:text-cyan-500 transition-colors duration-300">
+                        {skill.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
