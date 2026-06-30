@@ -482,6 +482,11 @@ const App = () => {
               liveLink="https://coral-web-jet.vercel.app/"
             />
             <ProjectCard
+              title="Doctor-Care"
+              tech="Html, JavaScript, Tailwind"
+              liveLink="https://doctor-care-ruddy-beta.vercel.app/"
+            />
+            <ProjectCard
               title="ShortLinky"
               tech="React, MongoDB, Tailwind"
               liveLink="https://shortlinky-url-maker.vercel.app/"
