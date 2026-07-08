@@ -198,7 +198,7 @@ const App = () => {
         )}
       </nav>
 
-      <main className="max-w-6xl mx-auto px-6">
+      <main className="max-w-7xl mx-auto px-6">
         {/* --- HERO SECTION --- */}
         <section
           id="home"
@@ -470,7 +470,7 @@ const App = () => {
               View all GitHub repos
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ProjectCard
               title="DevBlog"
               tech="React, Node.js, MongoDB"
@@ -562,7 +562,7 @@ const App = () => {
                   </div>
                   <div>
                     <h4 className="font-bold">Email</h4>
-                    <a href="mailto:[sabbirhp450@gmail.com]" className="text-slate-500 hover:text-cyan-500 transition">sabbirhp450@gmail.com</a>
+                    <a href="mailto:[sabbirhp50@gmail.com]" className="text-slate-500 hover:text-cyan-500 transition">sabbirhp450@gmail.com</a>
                   </div>
                 </div>
 
@@ -585,7 +585,7 @@ const App = () => {
                 className="space-y-6"
               >
                 {/* Replace with your Access Key from web3forms.com */}
-                <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+                <input type="hidden" name="access_key" value="715d6bcc-4cc7-4c1e-9659-00e7c63efd7d" />
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
@@ -739,7 +739,7 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "" }) => {
 
 const ProjectCard = ({ title, tech, liveLink, githubLink }) => (
   <div className="group relative hover:bg-slate-200 dark:hover:bg-slate-800 transition duration-500 bg-slate-100 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden">
-    <div className="h-60 bg-slate-200 dark:bg-slate-800 overflow-hidden relative ">
+    <div className="h-50 bg-slate-200 dark:bg-slate-800 overflow-hidden relative ">
       <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center relative">
         {liveLink ? (
           <>
