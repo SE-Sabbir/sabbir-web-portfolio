@@ -22,13 +22,72 @@ import {
   ChevronLeft,
   ChevronRight,
   Terminal,
+  LayoutList,
+  Grid,
+  Sparkles,
+  CheckCircle2,
 } from "lucide-react";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCarouselHovered, setIsCarouselHovered] = useState(false);
+  const [viewMode, setViewMode] = useState("list");
   const carouselRef = useRef(null);
+
+  const projectsData = [
+    {
+      id: "01",
+      title: "DevBlog",
+      category: "Full-Stack Web App",
+      description: "A modern developer blogging platform featuring rich text publishing, JWT authentication, user management, and interactive comment systems.",
+      highlights: ["MERN Stack Architecture", "JWT Auth & Role Management", "Responsive Modern UI"],
+      tech: ["React", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
+      liveLink: "https://devblog-murex-three.vercel.app/",
+      githubLink: "https://github.com/SE-Sabbir/DevBlog",
+      featured: true,
+    },
+    {
+      id: "02",
+      title: "Coral-web",
+      category: "E-Commerce / Landing Page",
+      description: "A sleek, responsive retail and fashion online showcase built with modern React components and high performance styling.",
+      highlights: ["Dynamic Product Grid", "Interactive Cart Interface", "Fast Page Loading"],
+      tech: ["React", "Tailwind CSS", "Vite", "JavaScript"],
+      liveLink: "https://coral-web-jet.vercel.app/",
+      githubLink: "https://github.com/SE-Sabbir/Coral-web",
+    },
+    {
+      id: "03",
+      title: "Doctor-Care",
+      category: "Healthcare Platform",
+      description: "An intuitive doctor appointment booking system allowing patients to browse doctor profiles and book slots easily.",
+      highlights: ["Doctor Search & Filters", "Appointment Booking", "Mobile Friendly"],
+      tech: ["HTML5", "JavaScript", "Tailwind CSS"],
+      liveLink: "https://doctor-care-ruddy-beta.vercel.app/",
+      githubLink: "https://github.com/SE-Sabbir/Doctor-Care",
+    },
+    {
+      id: "04",
+      title: "ShortLinky",
+      category: "Utility Tool",
+      description: "A fast, lightweight URL shortener application transforming long Web links into custom short links with live analytics tracking.",
+      highlights: ["Instant Link Shortening", "Click Analytics Tracking", "Custom Link Slugs"],
+      tech: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
+      liveLink: "https://shortlinky-url-maker.vercel.app/",
+      githubLink: "https://github.com/SE-Sabbir/ShortLinky",
+    },
+    {
+      id: "05",
+      title: "Real-time Chat App",
+      category: "Web Communication",
+      description: "A real-time instant messaging application supporting room channels, live WebSocket connections, and user online indicators.",
+      highlights: ["WebSocket Communication", "Live Online Status", "Dark Mode UI"],
+      tech: ["Socket.io", "React", "Node.js", "MongoDB", "Tailwind CSS"],
+      liveLink: null,
+      githubLink: "https://github.com/SE-Sabbir/realtime-chat",
+    },
+  ];
 
   const scrollCarousel = (direction) => {
     if (carouselRef.current) {
@@ -464,38 +523,57 @@ const App = () => {
 
         {/* --- PROJECTS SECTION --- */}
         <section id="projects" className="py-20">
-          <div className="flex justify-between items-end mb-12">
-            <h2 className="text-4xl font-bold">My Projects</h2>
-            <p className="text-cyan-500 underline cursor-pointer">
-              View all GitHub repos
-            </p>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-12">
+            <div>
+              <h2 className="text-4xl font-bold mb-2">My Projects</h2>
+              <p className="text-slate-500 text-sm sm:text-base">
+                Explore a showcase of my web applications, full-stack tools, and side projects.
+              </p>
+            </div>
+            <div className="flex items-center gap-4 self-end sm:self-auto">
+              {/* View Layout Toggle */}
+              <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-full border border-slate-200 dark:border-slate-800">
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-2 rounded-full transition-all duration-300 flex items-center gap-1.5 text-xs font-bold px-3.5 ${
+                    viewMode === "list"
+                      ? "bg-cyan-500 text-white shadow-md shadow-cyan-500/30"
+                      : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                  title="List View"
+                >
+                  <LayoutList size={16} />
+                  <span className="hidden sm:inline">List</span>
+                </button>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 rounded-full transition-all duration-300 flex items-center gap-1.5 text-xs font-bold px-3.5 ${
+                    viewMode === "grid"
+                      ? "bg-cyan-500 text-white shadow-md shadow-cyan-500/30"
+                      : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                  title="Grid View"
+                >
+                  <Grid size={16} />
+                  <span className="hidden sm:inline">Grid</span>
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ProjectCard
-              title="DevBlog"
-              tech="React, Node.js, MongoDB"
-              liveLink="https://devblog-murex-three.vercel.app/"
-            />
-            <ProjectCard
-              title="Coral-web"
-              tech="React, Tailwind"
-              liveLink="https://coral-web-jet.vercel.app/"
-            />
-            <ProjectCard
-              title="Doctor-Care"
-              tech="Html, JavaScript, Tailwind"
-              liveLink="https://doctor-care-ruddy-beta.vercel.app/"
-            />
-            <ProjectCard
-              title="ShortLinky"
-              tech="React, MongoDB, Tailwind"
-              liveLink="https://shortlinky-url-maker.vercel.app/"
-            />
-            <ProjectCard
-              title="Real-time Chat App"
-              tech="Socket.io, MongoDB, Tailwind"
-            />
-          </div>
+
+          {viewMode === "list" ? (
+            <div className="flex flex-col gap-10">
+              {projectsData.map((project) => (
+                <ProjectListItem key={project.id} project={project} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projectsData.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          )}
         </section>
 
         {/* --- REVIEWS SECTION --- */}
@@ -737,45 +815,189 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "" }) => {
   );
 };
 
-const ProjectCard = ({ title, tech, liveLink, githubLink }) => (
-  <div className="group relative hover:bg-slate-200 dark:hover:bg-slate-800 transition duration-500 bg-slate-100 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden">
-    <div className="h-50 bg-slate-200 dark:bg-slate-800 overflow-hidden relative ">
-      <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center relative">
-        {liveLink ? (
-          <>
-            {/* Scaled down iframe to show a true live preview of the site */}
-            <div className="absolute top-0 left-0 w-[250%] h-[250%] origin-top-left scale-[0.4]">
-              <iframe
-                src={liveLink}
-                title={title}
-                className="w-full h-full border-none bg-white dark:bg-slate-950"
-                tabIndex="-1"
-              />
+const ProjectListItem = ({ project }) => {
+  const { id, title, category, description, highlights, tech, liveLink, githubLink, featured } = project;
+
+  return (
+    <div className="group relative p-6 sm:p-8 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-[2.5rem] hover:border-cyan-500/50 transition-all duration-500 shadow-xl shadow-slate-200/20 dark:shadow-none hover:shadow-cyan-500/10 flex flex-col lg:flex-row gap-8 items-stretch">
+      {/* Live Preview Area */}
+      <div className="w-full lg:w-5/12 h-60 sm:h-72 lg:h-auto lg:min-h-[280px] bg-slate-200 dark:bg-slate-950 rounded-2xl overflow-hidden relative border border-slate-200 dark:border-slate-800/80 shrink-0 group/preview">
+        <div className="w-full h-full bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-transparent flex items-center justify-center relative overflow-hidden">
+          {liveLink ? (
+            <>
+              {/* Scaled down iframe to show true live preview */}
+              <div className="absolute top-0 left-0 w-[250%] h-[250%] origin-top-left scale-[0.4] group-hover/preview:scale-[0.42] transition-transform duration-500 pointer-events-none">
+                <iframe
+                  src={liveLink}
+                  title={title}
+                  className="w-full h-full border-none bg-white dark:bg-slate-950"
+                  tabIndex="-1"
+                  loading="lazy"
+                />
+              </div>
+              {/* Overlay button */}
+              <div className="absolute inset-0 bg-slate-950/20 group-hover/preview:bg-slate-950/40 transition-colors duration-300 flex items-center justify-center backdrop-blur-[2px] opacity-0 group-hover/preview:opacity-100">
+                <a
+                  href={liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded-full shadow-lg shadow-cyan-500/30 flex items-center gap-2 text-sm transition transform hover:scale-105"
+                >
+                  <span>Open Live Preview</span>
+                  <ExternalLink size={16} />
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center gap-3 p-6 text-center">
+              <div className="p-4 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-cyan-500">
+                <Code2 size={36} />
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Backend / System App</span>
             </div>
-            {/* Transparent overlay blocks clicks to the iframe, allowing card interaction */}
-            <div className="absolute inset-0 z-10 bg-slate-900/5 group-hover:bg-transparent transition-colors duration-500 hover:cursor-pointer" onClick={() => window.open(liveLink, "_blank")}></div>
-          </>
-        ) : (
-          <Code2 size={48} className="text-slate-400 opacity-20 relative z-20" />
-        )}
+          )}
+
+          {/* Project Index / Badge */}
+          <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-xs font-bold font-poppins text-slate-700 dark:text-slate-300 backdrop-blur-md z-10 shadow-sm flex items-center gap-1.5">
+            <span className="text-cyan-500">#{id}</span>
+            {featured && (
+              <span className="flex items-center gap-1 text-amber-500 text-[10px] uppercase font-black tracking-wider border-l border-slate-300 dark:border-slate-700 pl-1.5 ml-0.5">
+                <Sparkles size={10} className="fill-amber-500" /> Featured
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Details & Tech Stack */}
+      <div className="flex-1 flex flex-col justify-between">
+        <div>
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-cyan-500 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+              {category}
+            </span>
+          </div>
+
+          <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-cyan-500 transition-colors duration-300">
+            {title}
+          </h3>
+
+          <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-5 text-sm sm:text-base">
+            {description}
+          </p>
+
+          {/* Highlights */}
+          {highlights && highlights.length > 0 && (
+            <div className="flex flex-wrap gap-x-4 gap-y-2 mb-6">
+              {highlights.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400">
+                  <CheckCircle2 size={14} className="text-cyan-500 shrink-0" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tech Stack Pills */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {tech.map((t, idx) => (
+              <span
+                key={idx}
+                className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shadow-sm"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-slate-200 dark:border-slate-800/80">
+          {liveLink && (
+            <a
+              href={liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-bold bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2.5 rounded-full shadow-md shadow-cyan-500/20 transition-all duration-300 transform hover:-translate-y-0.5"
+            >
+              <span>Live Demo</span>
+              <ExternalLink size={16} />
+            </a>
+          )}
+          <a
+            href={githubLink || "https://github.com/SE-Sabbir"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 bg-white dark:bg-slate-950 px-5 py-2.5 rounded-full border border-slate-200 dark:border-slate-800 hover:border-cyan-500 transition-all duration-300 shadow-sm"
+          >
+            <Github size={16} />
+            <span>Source Code</span>
+          </a>
+        </div>
       </div>
     </div>
-    <div className="p-5 relative z-20">
-      <h3 className="text-2xl font-bold mb-1">{title}</h3>
-      <p className="text-slate-500 mb-4">{tech}</p>
-      <div className="flex gap-4">
+  );
+};
+
+const ProjectCard = ({ project }) => {
+  const { title, category, description, tech, liveLink, githubLink } = project;
+  return (
+    <div className="group relative hover:border-cyan-500/50 transition-all duration-500 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] overflow-hidden flex flex-col justify-between shadow-lg shadow-slate-200/20 dark:shadow-none">
+      <div>
+        <div className="h-52 bg-slate-200 dark:bg-slate-950 overflow-hidden relative">
+          <div className="w-full h-full bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-transparent flex items-center justify-center relative">
+            {liveLink ? (
+              <>
+                <div className="absolute top-0 left-0 w-[250%] h-[250%] origin-top-left scale-[0.4] pointer-events-none">
+                  <iframe
+                    src={liveLink}
+                    title={title}
+                    className="w-full h-full border-none bg-white dark:bg-slate-950"
+                    tabIndex="-1"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="absolute inset-0 z-10 bg-slate-900/5 group-hover:bg-transparent transition-colors duration-500 cursor-pointer" onClick={() => window.open(liveLink, "_blank")}></div>
+              </>
+            ) : (
+              <Code2 size={48} className="text-slate-400 opacity-20 relative z-20" />
+            )}
+          </div>
+        </div>
+        <div className="p-6">
+          {category && (
+            <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-500 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20 mb-3 inline-block">
+              {category}
+            </span>
+          )}
+          <h3 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-cyan-500 transition-colors">{title}</h3>
+          <p className="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">{description}</p>
+          <div className="flex flex-wrap gap-1.5 mb-4">
+            {Array.isArray(tech) ? (
+              tech.map((t, idx) => (
+                <span key={idx} className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800">
+                  {t}
+                </span>
+              ))
+            ) : (
+              <span className="text-xs text-slate-500">{tech}</span>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="p-6 pt-0 flex gap-3">
         {liveLink && (
-          <button onClick={() => window.open(liveLink, "_blank")} className="flex items-center gap-2 text-sm font-bold bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition hover:shadow-cyan-500/20 shadow-sm">
-            Live <ExternalLink size={14} />
+          <button onClick={() => window.open(liveLink, "_blank")} className="flex items-center gap-1.5 text-xs font-bold bg-cyan-500 text-white px-4 py-2 rounded-full hover:bg-cyan-600 transition shadow-sm">
+            Live <ExternalLink size={12} />
           </button>
         )}
-        <button onClick={() => window.open(githubLink || "#", "_blank")} className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-cyan-500 transition">
-          GitHub <Github size={14} />
+        <button onClick={() => window.open(githubLink || "https://github.com/SE-Sabbir", "_blank")} className="flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-cyan-500 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-full transition">
+          GitHub <Github size={12} />
         </button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 // ------------reveiw card----------------
 const ReviewCard = ({ name, title, review, rating }) => (
   <div className="p-8 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 relative group hover:border-cyan-500/50 transition duration-500 shadow-xl shadow-slate-200/20 dark:shadow-none flex flex-col h-full">
