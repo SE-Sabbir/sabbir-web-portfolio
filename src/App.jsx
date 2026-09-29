@@ -49,6 +49,16 @@ const App = () => {
     },
     {
       id: "02",
+      title: "MERN E-Commerce",
+      category: "Full-Stack E-Commerce Platform",
+      description: "A dynamic online store built with the MERN stack, featuring product listings, shopping cart functionality, and secure checkout processes.",
+      highlights: ["Dynamic Product Grid", "Interactive Cart Interface", "Fast Page Loading"],
+      tech: ["Next.js", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
+      liveLink: "https://mern-e-commerce-nextjs.vercel.app/",
+      githubLink: "https://github.com/SE-Sabbir/e-commerce-web-frontend-nextjs",
+    },
+    {
+      id: "03",
       title: "Coral-web",
       category: "E-Commerce / Landing Page",
       description: "A sleek, responsive retail and fashion online showcase built with modern React components and high performance styling.",
@@ -58,7 +68,7 @@ const App = () => {
       githubLink: "https://github.com/SE-Sabbir/Coral-web",
     },
     {
-      id: "03",
+      id: "04",
       title: "Doctor-Care",
       category: "Healthcare Platform",
       description: "An intuitive doctor appointment booking system allowing patients to browse doctor profiles and book slots easily.",
@@ -68,7 +78,7 @@ const App = () => {
       githubLink: "https://github.com/SE-Sabbir/Doctor-Care",
     },
     {
-      id: "04",
+      id: "05",
       title: "ShortLinky",
       category: "Utility Tool",
       description: "A fast, lightweight URL shortener application transforming long Web links into custom short links with live analytics tracking.",
@@ -78,7 +88,7 @@ const App = () => {
       githubLink: "https://github.com/SE-Sabbir/ShortLinky",
     },
     {
-      id: "05",
+      id: "06",
       title: "Real-time Chat App",
       category: "Web Communication",
       description: "A real-time instant messaging application supporting room channels, live WebSocket connections, and user online indicators.",
