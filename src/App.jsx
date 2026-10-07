@@ -93,9 +93,9 @@ const App = () => {
       category: "Web Communication",
       description: "A real-time instant messaging application supporting room channels, live WebSocket connections, and user online indicators.",
       highlights: ["WebSocket Communication", "Live Online Status", "Dark Mode UI"],
-      tech: ["Socket.io", "React", "Node.js", "MongoDB", "Tailwind CSS"],
-      liveLink: null,
-      githubLink: "https://github.com/SE-Sabbir/realtime-chat",
+      tech: ["React", "Firebase", "Redux", "Tailwind CSS"],
+      liveLink: "https://silent-talk-chatting-app.vercel.app/",
+      githubLink: "https://github.com/SE-Sabbir/Silent-Talk-Chatting-App",
     },
   ];
 
