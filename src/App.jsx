@@ -59,6 +59,16 @@ const App = () => {
     },
     {
       id: "03",
+      title: "Seba Hospital",
+      category: "Healthcare Web Application",
+        description: "A comprehensive hospital management system allowing patients to book appointments, view doctor profiles, and access healthcare services online.",
+      highlights: ["Patient Appointment Booking", "Doctor Profile Management", "Secure User Authentication"],
+      tech: ["Next.js","Node.js","MongoDB","Tailwind CSS"],
+      liveLink: "https://seba-hospital-client-nextjs.vercel.app/",
+      githubLink: "https://github.com/SE-Sabbir/seba-hospital-client-nextjs.git",
+    },
+    {
+      id: "04",
       title: "Coral-web",
       category: "E-Commerce / Landing Page",
       description: "A sleek, responsive retail and fashion online showcase built with modern React components and high performance styling.",
@@ -68,7 +78,7 @@ const App = () => {
       githubLink: "https://github.com/SE-Sabbir/Coral-web",
     },
     {
-      id: "04",
+      id: "05",
       title: "Doctor-Care",
       category: "Healthcare Platform",
       description: "An intuitive doctor appointment booking system allowing patients to browse doctor profiles and book slots easily.",
@@ -76,16 +86,6 @@ const App = () => {
       tech: ["HTML5", "JavaScript", "Tailwind CSS"],
       liveLink: "https://doctor-care-ruddy-beta.vercel.app/",
       githubLink: "https://github.com/SE-Sabbir/Doctor-Care",
-    },
-    {
-      id: "05",
-      title: "ShortLinky",
-      category: "Utility Tool",
-      description: "A fast, lightweight URL shortener application transforming long Web links into custom short links with live analytics tracking.",
-      highlights: ["Instant Link Shortening", "Click Analytics Tracking", "Custom Link Slugs"],
-      tech: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
-      liveLink: "https://shortlinky-url-maker.vercel.app/",
-      githubLink: "https://github.com/SE-Sabbir/ShortLinky",
     },
     {
       id: "06",
@@ -96,6 +96,16 @@ const App = () => {
       tech: ["React", "Firebase", "Redux", "Tailwind CSS"],
       liveLink: "https://silent-talk-chatting-app.vercel.app/",
       githubLink: "https://github.com/SE-Sabbir/Silent-Talk-Chatting-App",
+    },
+    {
+      id: "07",
+      title: "ShortLinky",
+      category: "Utility Tool",
+      description: "A fast, lightweight URL shortener application transforming long Web links into custom short links with live analytics tracking.",
+      highlights: ["Instant Link Shortening", "Click Analytics Tracking", "Custom Link Slugs"],
+      tech: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
+      liveLink: "https://shortlinky-url-maker.vercel.app/",
+      githubLink: "https://github.com/SE-Sabbir/ShortLinky",
     },
   ];
 
