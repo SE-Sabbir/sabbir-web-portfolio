@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./App.css";
 import resumePdf from "./assets/sabbir-mern-resume.pdf";
 import {
@@ -28,12 +30,30 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
+const getGsapRevealFrom = (element) => {
+  const direction = element.dataset.gsap?.split("-").at(-1);
+  const offsets = {
+    left: { x: -28 },
+    right: { x: 28 },
+    up: { y: 24 },
+    down: { y: -24 },
+    in: { scale: 0.96 },
+    out: { scale: 1.04 },
+  };
+
+  return {
+    autoAlpha: 0,
+    ...offsets[direction],
+  };
+};
+
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCarouselHovered, setIsCarouselHovered] = useState(false);
   const [viewMode, setViewMode] = useState("list");
   const carouselRef = useRef(null);
+  const pageRef = useRef(null);
 
   const projectsData = [
     {
@@ -169,6 +189,142 @@ const App = () => {
     }
   }, [darkMode]);
 
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const motion = gsap.matchMedia();
+
+    const context = gsap.context(() => {
+      motion.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from('[data-gsap="nav"]', {
+          autoAlpha: 0,
+          y: -18,
+          duration: 0.7,
+          ease: "power3.out",
+        });
+
+        gsap.utils.toArray('[data-gsap^="hero-item"]').forEach((element, index) => {
+          gsap.fromTo(
+            element,
+            getGsapRevealFrom(element),
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              duration: 0.72,
+              delay: 0.12 + index * 0.12,
+              ease: "power2.out",
+            },
+          );
+        });
+
+        gsap.fromTo(
+          '[data-gsap="hero-portrait-right"]',
+          { autoAlpha: 0, x: 28 },
+          {
+            autoAlpha: 1,
+            x: 0,
+            duration: 0.9,
+            delay: 0.28,
+            ease: "power2.out",
+          },
+        );
+
+        gsap.utils.toArray('[data-gsap="reveal"], [data-gsap^="reveal-"]').forEach((element) => {
+          gsap.fromTo(
+            element,
+            getGsapRevealFrom(element),
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              duration: 0.7,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: element,
+                start: "top 90%",
+                once: true,
+              },
+            },
+          );
+        });
+
+        gsap.fromTo(
+          '[data-gsap="tech-card"]',
+          { autoAlpha: 0, y: 24 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.65,
+            stagger: 0.16,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: "#skills",
+              start: "top 82%",
+              once: true,
+            },
+          },
+        );
+
+        gsap.fromTo(
+          '[data-gsap="footer-item"]',
+          { autoAlpha: 0, y: 32 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.14,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: "#page-footer",
+              start: "top 92%",
+              once: true,
+            },
+          },
+        );
+      });
+    }, pageRef);
+
+    return () => {
+      motion.revert();
+      context.revert();
+    };
+  }, []);
+
+  useEffect(() => {
+    const motion = gsap.matchMedia();
+
+    const context = gsap.context(() => {
+      motion.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.utils.toArray('[data-gsap^="project-item-"]').forEach((element) => {
+          gsap.fromTo(
+            element,
+            getGsapRevealFrom(element),
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              duration: 0.68,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: element,
+                start: "top 92%",
+                once: true,
+              },
+            },
+          );
+        });
+      });
+    }, pageRef);
+
+    return () => {
+      motion.revert();
+      context.revert();
+    };
+  }, [viewMode]);
+
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
@@ -213,9 +369,9 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen transition-colors duration-500 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-cyan-500/30">
+    <div ref={pageRef} className="min-h-screen transition-colors duration-500 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-cyan-500/30">
       {/* --- RESPONSIVE NAVBAR --- */}
-      <nav className="fixed w-full top-0 z-[100] backdrop-blur-md bg-white/70 dark:bg-slate-950/70 border-b border-slate-200 dark:border-slate-800 px-6 py-4">
+      <nav data-gsap="nav" className="fixed w-full top-0 z-[100] backdrop-blur-md bg-white/70 dark:bg-slate-950/70 border-b border-slate-200 dark:border-slate-800 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div onClick={() => window.location.href = "#home"} className="flex items-center gap-2 cursor-pointer">
             <div className="w-9 h-9 flex items-center justify-center">
@@ -284,11 +440,11 @@ const App = () => {
           className="pt-24 md:pt-40 pb-20 flex flex-col md:flex-row items-center gap-12"
         >
           <div className="flex-1 space-y-6">
-            <h2 className="text-slate-400 font-poppins tracking-widest uppercase text-lg">
+            <h2 data-gsap="hero-item-up" className="text-slate-400 font-poppins tracking-widest uppercase text-lg">
               Welcome to my world
             </h2>
 
-            <h1 className="text-5xl md:text-7xl font-poppins font-normal font-black leading-tight min-h-[160px]">
+            <h1 data-gsap="hero-item-up" className="text-5xl md:text-7xl font-poppins font-normal font-black leading-tight min-h-[160px]">
               Hi... I'm{" "}
               <span className="text-slate-900 font-bold dark:text-white">
                 Sabbir Hossain
@@ -301,13 +457,13 @@ const App = () => {
               </span>
             </h1>
 
-            <p className="text-lg text-slate-500 dark:text-slate-400 max-w-md">
+            <p data-gsap="hero-item-up" className="text-lg text-slate-500 dark:text-slate-400 max-w-md">
               Building high-performance web applications with a focus on clean
               code and seamless user experiences.
             </p>
 
             {/* Buttons and Socials... */}
-            <div className="flex flex-wrap items-center gap-6 pt-4">
+            <div data-gsap="hero-item-up" className="flex flex-wrap items-center gap-6 pt-4">
               <a
                 href={resumePdf}
                 download="sabbir-mern-resume.pdf"
@@ -343,7 +499,7 @@ const App = () => {
 
           </div>
           {/* Profile Picture Frame */}
-          <div className="relative group order-first md:order-last">
+          <div data-gsap="hero-portrait-right" className="relative group order-first md:order-last">
             <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-2xl group-hover:bg-cyan-500/40 transition"></div>
             <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-200">
               {/* Replace with your image URL */}
@@ -357,7 +513,7 @@ const App = () => {
 
         </section>
         {/* LOGO MARQUEE (The Bottom Scroll) */}
-        <div className="w-full max-w-[320px] md:max-w-7xl mt-4 overflow-hidden relative">
+        <div data-gsap="reveal-right" className="w-full max-w-[320px] md:max-w-7xl mt-4 overflow-hidden relative">
           {/* Fade edges */}
           <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white dark:from-slate-950 to-transparent z-10"></div>
           <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white dark:from-slate-950 to-transparent z-10"></div>
@@ -383,7 +539,7 @@ const App = () => {
         </div>
 
         {/* --- STATS SECTION --- */}
-        <div className="py-12 my-12 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] shadow-xl shadow-slate-200/20 dark:shadow-none">
+        <div data-gsap="reveal-in" className="py-12 my-12 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 rounded-3xl shadow-lg dark:shadow-none">
           <div className="max-w-6xl mx-auto flex flex-wrap max-md:grid max-md:grid-cols-2 justify-between items-center gap-8 px-8 sm:px-12">
             <div className="flex flex-col items-center sm:items-start flex-1">
               <span className="text-4xl md:text-5xl font-black font-poppins text-cyan-500">
@@ -427,7 +583,7 @@ const App = () => {
           className="py-20 border-t border-slate-200 dark:border-slate-800"
         >
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="p-8 bg-slate-100 dark:bg-slate-900 rounded-[2rem]">
+            <div data-gsap="reveal-left" className="p-8 bg-slate-100 dark:bg-slate-900 rounded-3xl shadow-lg">
               <User className="text-cyan-500 mb-4" size={32} />
               <h3 className="text-3xl font-bold mb-4">The Journey</h3>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -442,8 +598,8 @@ const App = () => {
                 to constantly sharpen my skills.
               </p>
             </div>
-            <div className="space-y-4">
-              <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl">
+            <div data-gsap="reveal-right" className="space-y-4">
+              <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-lg">
                 <h4 className="font-bold text-cyan-500">Education</h4>
                 <p>Diploma in Computer Science & Engineering</p>
                 <p className="text-slate-500">TMSS Polytechnic Institute</p>
@@ -451,11 +607,11 @@ const App = () => {
                 <p>Diploma in MERN Stack</p>
                 <p className="text-slate-500">Creative IT Institute</p>
               </div>
-              <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl">
+              <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-lg">
                 <h4 className="font-bold text-cyan-500">Language</h4>
                 <p>Bengali (Native), English (Fluent) , Hindi (Basic)</p>
               </div>
-              <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl">
+              <div className="p-6 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-lg">
                 <h4 className="font-bold text-cyan-500">Focus</h4>
                 <p>Scalable Web Apps & API Security</p>
               </div>
@@ -465,7 +621,7 @@ const App = () => {
 
         {/* --- SKILLS SECTION --- */}
         <section id="skills" className="py-20">
-          <h2 className="text-4xl font-bold mb-12">Tech Stack</h2>
+          <h2 data-gsap="reveal-up" className="text-4xl font-bold mb-12">Tech Stack</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
@@ -505,7 +661,8 @@ const App = () => {
             ].map((category) => (
               <div
                 key={category.title}
-                className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800/50 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/5 group flex flex-col"
+                data-gsap="tech-card"
+                className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800/50 shadow-md hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/5 group flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2 bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800/80 rounded-2xl shadow-sm">
@@ -543,7 +700,7 @@ const App = () => {
 
         {/* --- PROJECTS SECTION --- */}
         <section id="projects" className="py-20">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-12">
+          <div data-gsap="reveal-left" className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-12">
             <div>
               <h2 className="text-4xl font-bold mb-2">My Projects</h2>
               <p className="text-slate-500 text-sm sm:text-base">
@@ -598,7 +755,7 @@ const App = () => {
 
         {/* --- REVIEWS SECTION --- */}
         <section id="reviews" className="py-20 border-t border-slate-200 dark:border-slate-800">
-          <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 mb-12">
+          <div data-gsap="reveal-right" className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 mb-12">
             <div className="text-center md:text-left">
               <h2 className="text-4xl font-bold mb-4">Client Reviews</h2>
               <p className="text-slate-500 max-w-2xl">
@@ -637,7 +794,7 @@ const App = () => {
               { name: "Emily Davis", title: "Marketing Head", review: "A true professional. Outstanding user experience and smooth micro-animations. Would hire again!", rating: 5 },
               { name: "David Miller", title: "CTO, InnovateX", review: "Sabbir is simply fantastic. He turned our vague ideas into a polished, high-performing product.", rating: 5 }
             ].map((r, idx) => (
-              <div key={idx} className="min-w-[100%] md:min-w-[420px] snap-center">
+              <div key={idx} data-gsap="reveal-up" className="min-w-[100%] md:min-w-[420px] snap-center">
                 <ReviewCard name={r.name} title={r.title} review={r.review} rating={r.rating} />
               </div>
             ))}
@@ -647,7 +804,7 @@ const App = () => {
         {/* --- CONTACT SECTION --- */}
         <section id="contact" className="py-20 border-t border-slate-200 dark:border-slate-800">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12">
-            <div className="md:w-1/3">
+            <div data-gsap="reveal-left" className="md:w-1/3">
               <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
               <p className="text-slate-500 mb-8">
                 Have a project in mind or just want to say hi? Feel free to reach out to me!
@@ -655,7 +812,7 @@ const App = () => {
 
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded-full text-cyan-500">
+                  <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded-full text-cyan-500 shadow-lg ">
                     <Mail size={24} />
                   </div>
                   <div>
@@ -665,7 +822,7 @@ const App = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded-full text-cyan-500">
+                  <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded-full text-cyan-500 shadow-lg ">
                     <Phone size={24} />
                   </div>
                   <div>
@@ -676,7 +833,7 @@ const App = () => {
               </div>
             </div>
 
-            <div className="md:w-2/3 p-8 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800">
+            <div data-gsap="reveal-right" className="md:w-2/3 p-8 bg-slate-50 dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg ">
               <form
                 action="https://api.web3forms.com/submit"
                 method="POST"
@@ -734,9 +891,9 @@ const App = () => {
       </main>
 
       {/* --- FOOTER --- */}
-      <footer className=" pt-15 pb-10 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 mt-20">
+      <footer id="page-footer" className="pt-15 pb-10 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 mt-20">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 gap-10 md:grid-cols-5 pb-10">
-          <div className="md:col-span-2 space-y-6">
+          <div data-gsap="footer-item" className="md:col-span-2 space-y-6">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 flex items-center justify-center">
                 <img src="https://res.cloudinary.com/dxr5inpsy/image/upload/v1773291601/S-letter_logo_ubt9g0.png" alt="logo" className="w-full h-full object-cover" />
@@ -748,7 +905,7 @@ const App = () => {
             </p>
           </div>
           
-          <div>
+          <div data-gsap="footer-item">
             <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase tracking-wider text-sm">Quick Links</h4>
             <ul className="space-y-4">
               <li><a href="#home" className="text-slate-500 hover:text-cyan-500 transition-colors">Home</a></li>
@@ -756,7 +913,7 @@ const App = () => {
               <li><a href="#skills" className="text-slate-500 hover:text-cyan-500 transition-colors">Skills</a></li>
             </ul>
           </div>
-          <div>
+          <div data-gsap="footer-item">
             <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase tracking-wider text-sm">Info Links</h4>
             <ul className="space-y-4">
               <li><a href="#projects" className="text-slate-500 hover:text-cyan-500 transition-colors">Projects</a></li>
@@ -765,7 +922,7 @@ const App = () => {
             </ul>
           </div>
 
-          <div>
+          <div data-gsap="footer-item">
             <h4 className="font-bold mb-6 text-slate-900 dark:text-white uppercase tracking-wider text-sm">Connect</h4>
             <ul className="space-y-4">
               <li><a href="https://github.com/SE-Sabbir" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-slate-500 hover:text-cyan-500 transition-colors"><Github size={18} /> GitHub</a></li>
@@ -775,7 +932,7 @@ const App = () => {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-6  pt-8 border-t border-slate-200 dark:border-slate-800">
+        <div data-gsap="footer-item" className="max-w-6xl mx-auto px-6 pt-8 border-t border-slate-200 dark:border-slate-800">
           <p className="text-center text-slate-500 text-sm mb-4 md:mb-0">
             © {new Date().getFullYear()} Sabbir Hossain. All rights reserved.
           </p>
@@ -839,9 +996,9 @@ const ProjectListItem = ({ project }) => {
   const { id, title, category, description, highlights, tech, liveLink, githubLink, featured } = project;
 
   return (
-    <div className="group relative p-6 sm:p-8 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-[2.5rem] hover:border-cyan-500/50 transition-all duration-500 shadow-xl shadow-slate-200/20 dark:shadow-none hover:shadow-cyan-500/10 flex flex-col lg:flex-row gap-8 items-stretch">
+    <div data-gsap="project-item-up" className="group relative p-6 sm:p-8 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-3xl hover:border-cyan-500/50 transition-all duration-500 shadow-lg dark:shadow-none hover:shadow-cyan-500/10 flex flex-col lg:flex-row gap-8 items-stretch">
       {/* Live Preview Area */}
-      <div className="w-full lg:w-5/12 h-60 sm:h-72 lg:h-auto lg:min-h-[280px] bg-slate-200 dark:bg-slate-950 rounded-2xl overflow-hidden relative border border-slate-200 dark:border-slate-800/80 shrink-0 group/preview">
+      <div className="w-full lg:w-5/12 h-60 sm:h-72 lg:h-auto lg:min-h-[280px] bg-slate-200 dark:bg-slate-950 rounded-xl overflow-hidden relative border border-slate-200 dark:border-slate-800/80 shrink-0 group/preview">
         <div className="w-full h-full bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-transparent flex items-center justify-center relative overflow-hidden">
           {liveLink ? (
             <>
@@ -962,7 +1119,7 @@ const ProjectListItem = ({ project }) => {
 const ProjectCard = ({ project }) => {
   const { title, category, description, tech, liveLink, githubLink } = project;
   return (
-    <div className="group relative hover:border-cyan-500/50 transition-all duration-500 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] overflow-hidden flex flex-col justify-between shadow-lg shadow-slate-200/20 dark:shadow-none">
+    <div data-gsap="project-item-up" className="group relative hover:border-cyan-500/50 transition-all duration-500 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-lg dark:shadow-none">
       <div>
         <div className="h-52 bg-slate-200 dark:bg-slate-950 overflow-hidden relative">
           <div className="w-full h-full bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-transparent flex items-center justify-center relative">
@@ -1020,7 +1177,7 @@ const ProjectCard = ({ project }) => {
 };
 // ------------reveiw card----------------
 const ReviewCard = ({ name, title, review, rating }) => (
-  <div className="p-8 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 relative group hover:border-cyan-500/50 transition duration-500 shadow-xl shadow-slate-200/20 dark:shadow-none flex flex-col h-full">
+  <div className="p-8 bg-slate-50 dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 relative group hover:border-cyan-500/50 transition duration-500 shadow-lg dark:shadow-none flex flex-col h-full">
     <Quote className="absolute top-8 right-8 text-slate-200 dark:text-slate-800 group-hover:text-cyan-500/20 transition-colors duration-500" size={48} />
     <div className="flex gap-1 text-yellow-400 mb-6">
       {Array.from({ length: rating || 5 }).map((_, i) => (
