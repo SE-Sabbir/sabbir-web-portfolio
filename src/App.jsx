@@ -69,12 +69,12 @@ const App = () => {
     },
     {
       id: "02",
-      title: "MERN E-Commerce",
+      title: "NijerShop",
       category: "Full-Stack E-Commerce Platform",
       description: "A dynamic online store built with the MERN stack, featuring product listings, shopping cart functionality, and secure checkout processes.",
       highlights: ["Dynamic Product Grid", "Interactive Cart Interface", "Fast Page Loading"],
       tech: ["Next.js", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
-      liveLink: "https://mern-e-commerce-nextjs.vercel.app/",
+      liveLink: "https://nijershop-nextjs.vercel.app/",
       githubLink: "https://github.com/SE-Sabbir/e-commerce-web-frontend-nextjs",
     },
     {
