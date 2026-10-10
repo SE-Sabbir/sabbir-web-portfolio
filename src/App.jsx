@@ -109,23 +109,13 @@ const App = () => {
     },
     {
       id: "06",
-      title: "Real-time Chat App",
-      category: "Web Communication",
+      title: "SilentTalk",
+      category: "Real-Time Chat Application",
       description: "A real-time instant messaging application supporting room channels, live WebSocket connections, and user online indicators.",
       highlights: ["WebSocket Communication", "Live Online Status", "Dark Mode UI"],
       tech: ["React", "Firebase", "Redux", "Tailwind CSS"],
       liveLink: "https://silent-talk-chatting-app.vercel.app/",
       githubLink: "https://github.com/SE-Sabbir/Silent-Talk-Chatting-App",
-    },
-    {
-      id: "07",
-      title: "ShortLinky",
-      category: "Utility Tool",
-      description: "A fast, lightweight URL shortener application transforming long Web links into custom short links with live analytics tracking.",
-      highlights: ["Instant Link Shortening", "Click Analytics Tracking", "Custom Link Slugs"],
-      tech: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
-      liveLink: "https://shortlinky-url-maker.vercel.app/",
-      githubLink: "https://github.com/SE-Sabbir/ShortLinky",
     },
   ];
 
