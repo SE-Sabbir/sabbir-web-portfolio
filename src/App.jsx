@@ -367,8 +367,8 @@ const App = () => {
             <div className="w-9 h-9 flex items-center justify-center">
               <img src="https://res.cloudinary.com/dxr5inpsy/image/upload/v1773291601/S-letter_logo_ubt9g0.png" alt="logo" className="w-full h-full object-cover" />
             </div>
-            <span className="font-poppins text-xl font-bold tracking-tighter uppercase">
-              sabbir.dev
+            <span className="font-poppins text-xl font-bold tracking-tighter">
+              Sabbir-bd
             </span>
           </div>
 
@@ -888,7 +888,7 @@ const App = () => {
               <div className="w-8 h-8 flex items-center justify-center">
                 <img src="https://res.cloudinary.com/dxr5inpsy/image/upload/v1773291601/S-letter_logo_ubt9g0.png" alt="logo" className="w-full h-full object-cover" />
               </div>
-              <span className="font-poppins text-xl font-bold tracking-tighter uppercase">sabbir.dev</span>
+              <span className="font-poppins text-xl font-bold tracking-tighter">Sabbir-bd</span>
             </div>
             <p className="text-slate-500 max-w-sm leading-relaxed">
               Building high-performance web applications with a focus on clean code and seamless user experiences. Let's create something amazing together.
